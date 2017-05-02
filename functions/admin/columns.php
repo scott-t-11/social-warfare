@@ -26,7 +26,13 @@ add_action( 'manage_page_posts_custom_column', 'populateSocialSharesColumn', 10,
 function populateSocialSharesColumn( $column_name, $post_ID ) {
 	if ( $column_name == 'swSocialShares' ) {
 		$answer = get_post_meta( $post_ID,'_totes',true );
+		$updated = get_post_meta( $post_ID,'_totes_updated',true );
+
 		echo intval( $answer );
+
+		if( isset( $updated )  && !empty( $updated ) ):
+			echo '<span class="admin-updated">' . $updated . '</span>';
+		endif;
 	}
 }
 

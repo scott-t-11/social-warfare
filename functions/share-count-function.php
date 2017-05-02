@@ -79,56 +79,55 @@ function get_social_warfare_shares( $postID ) {
 	if ( $freshCache == true ) :
 		if ( get_post_meta( $postID,'_totes',true ) ) :
 			$shares['totes'] = get_post_meta( $postID,'_totes',true );
-			else :
-				$shares['totes'] = 0;
-			endif;
 		else :
+			$shares['totes'] = 0;
+		endif;
+	else :
 
 			// Fetch all the share counts asyncrounously
-			$raw_shares_array = swp_fetch_shares_via_curl_multi( $share_links );
+		$raw_shares_array = swp_fetch_shares_via_curl_multi( $share_links );
+		if ( $options['recover_shares'] == true ) :
+			$old_raw_shares_array = swp_fetch_shares_via_curl_multi( $old_share_links );
+		endif;
+
+		foreach ( $networks as $network ) :
+
+			if ( ! isset( $raw_shares_array[ $network ] ) ) { $raw_shares_array[ $network ] = 0; }
+			if ( ! isset( $old_raw_shares_array[ $network ] ) ) { $old_raw_shares_array[ $network ] = 0; }
+
+			$shares[ $network ] = call_user_func( 'swp_format_' . $network . '_response',$raw_shares_array[ $network ] );
 			if ( $options['recover_shares'] == true ) :
-				$old_raw_shares_array = swp_fetch_shares_via_curl_multi( $old_share_links );
+				$recovered_shares[ $network ] = call_user_func( 'swp_format_' . $network . '_response',$old_raw_shares_array[ $network ] );
+				if ( $shares[ $network ] != $recovered_shares[ $network ] ) :
+					$shares[ $network ] = $shares[ $network ] + $recovered_shares[ $network ];
+				endif;
 			endif;
+			if ( $shares[ $network ] <= $old_shares[ $network ] ) :
+				$shares[ $network ] = $old_shares[ $network ];
+			else :
+				delete_post_meta( $postID,'_' . $network . '_shares' );
+				update_post_meta( $postID,'_' . $network . '_shares',$shares[ $network ] );
+			endif;
+			$shares['totes'] += $shares[ $network ];
 
-			foreach ( $networks as $network ) :
+		endforeach;
+	endif;
 
-				if ( ! isset( $raw_shares_array[ $network ] ) ) { $raw_shares_array[ $network ] = 0;
-				}
-				if ( ! isset( $old_raw_shares_array[ $network ] ) ) { $old_raw_shares_array[ $network ] = 0;
-				}
+	/**
+	* Update the Cache and Return the Share Counts
+	*/
+	if ( $freshCache != true ) :
 
-				$shares[ $network ] = call_user_func( 'swp_format_' . $network . '_response',$raw_shares_array[ $network ] );
-				if ( $options['recover_shares'] == true ) :
-					$recovered_shares[ $network ] = call_user_func( 'swp_format_' . $network . '_response',$old_raw_shares_array[ $network ] );
-					if ( $shares[ $network ] != $recovered_shares[ $network ] ) :
-						$shares[ $network ] = $shares[ $network ] + $recovered_shares[ $network ];
-					endif;
-				endif;
-				if ( $shares[ $network ] <= $old_shares[ $network ] ) :
-					$shares[ $network ] = $old_shares[ $network ];
-				else :
-					delete_post_meta( $postID,'_' . $network . '_shares' );
-					update_post_meta( $postID,'_' . $network . '_shares',$shares[ $network ] );
-				endif;
-				$shares['totes'] += $shares[ $network ];
+		// Clean out the previously used custom meta fields
+		delete_post_meta( $postID,'_totes' );
 
-			endforeach;
-		endif;
+		// Add the new data to the custom meta fields
+		update_post_meta( $postID,'_totes',$shares['totes'] );
 
-		/**
-		* Update the Cache and Return the Share Counts
-		*/
-		if ( $freshCache != true ) :
+		update_post_meta( $postID, '_totes_updated', date("F j, Y, g:i a") );
+	endif;
 
-			// Clean out the previously used custom meta fields
-			delete_post_meta( $postID,'_totes' );
-
-			// Add the new data to the custom meta fields
-			update_post_meta( $postID,'_totes',$shares['totes'] );
-
-		endif;
-
-		// Return the share counts
-		return $shares;
+	// Return the share counts
+	return $shares;
 
 }
