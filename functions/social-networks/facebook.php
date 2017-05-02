@@ -106,7 +106,8 @@ function swp_facebook_button_html( $array ) {
 			$array['totes'] += intval( $array['shares']['facebook'] );
 			++$array['count'];
 
-			$array['resource']['facebook'] = '<div class="nc_tweetContainer swp_fb" data-id="' . $array['count'] . '" data-network="facebook">';
+			$array['resource']['facebook'] = '<div class="networkContainer">';
+			$array['resource']['facebook'] .= '<div class="nc_tweetContainer swp_fb" data-id="' . $array['count'] . '" data-network="facebook">';
 			$link = urlencode( urldecode( swp_process_url( $array['url'] , 'facebook' , $array['postID'] ) ) );
 			$array['resource']['facebook'] .= '<a rel="nofollow" target="_blank" href="http://www.facebook.com/share.php?u=' . $link . '" data-link="http://www.facebook.com/share.php?u=' . $link . '" class="nc_tweet">';
 			if ( $array['options']['totesEach'] && $array['shares']['totes'] >= $array['options']['minTotes'] && $array['shares']['facebook'] > 0 ) :
@@ -120,6 +121,7 @@ function swp_facebook_button_html( $array ) {
 				$array['resource']['facebook'] .= '<span class="swp_count swp_hide"><span class="iconFiller"><span class="spaceManWilly"><i class="sw sw-facebook"></i><span class="swp_share"> ' . __( 'Share','social-warfare' ) . '</span></span></span></span>';
 			endif;
 			$array['resource']['facebook'] .= '</a>';
+			$array['resource']['facebook'] .= '</div>';
 			$array['resource']['facebook'] .= '</div>';
 
 			// Store these buttons so that we don't have to generate them for each set

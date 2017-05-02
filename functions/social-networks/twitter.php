@@ -154,7 +154,8 @@ function swp_twitter_button_html( $array ) {
 			$viaText = '';
 		endif;
 
-		$array['resource']['twitter'] = '<div class="nc_tweetContainer twitter" data-id="' . $array['count'] . '" data-network="twitter">';
+		$array['resource']['twitter'] = '<div class="networkContainer">';
+		$array['resource']['twitter'] .= '<div class="nc_tweetContainer twitter" data-id="' . $array['count'] . '" data-network="twitter">';
 		$array['resource']['twitter'] .= '<a rel="nofollow" target="_blank" href="https://twitter.com/share?original_referer=/&text=' . $ct . '' . $urlParam . '' . $viaText . '" data-link="https://twitter.com/share?original_referer=/&text=' . $ct . '' . $urlParam . '' . $viaText . '" class="nc_tweet">';
 		if ( $array['options']['totesEach'] && $array['shares']['totes'] >= $array['options']['minTotes'] && $array['shares']['twitter'] > 0 ) :
 			$array['resource']['twitter'] .= '<span class="iconFiller">';
@@ -167,6 +168,7 @@ function swp_twitter_button_html( $array ) {
 			$array['resource']['twitter'] .= '<span class="swp_count swp_hide"><span class="iconFiller"><span class="spaceManWilly"><i class="sw sw-twitter"></i><span class="swp_share"> ' . __( 'Tweet','social-warfare' ) . '</span></span></span></span>';
 		endif;
 		$array['resource']['twitter'] .= '</a>';
+		$array['resource']['twitter'] .= '</div>';
 		$array['resource']['twitter'] .= '</div>';
 
 		// Store these buttons so that we don't have to generate them for each set

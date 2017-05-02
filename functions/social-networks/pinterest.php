@@ -126,7 +126,9 @@ function swp_pinterest_button_html( $array ) {
 			else :
 				$a = '<a rel="nofollow" onClick="var e=document.createElement(\'script\');e.setAttribute(\'type\',\'text/javascript\');e.setAttribute(\'charset\',\'UTF-8\');e.setAttribute(\'src\',\'//assets.pinterest.com/js/pinmarklet.js?r=\'+Math.random()*99999999);document.body.appendChild(e);" class="nc_tweet noPop">';
 			endif;
-			$array['resource']['pinterest'] = '<div class="nc_tweetContainer nc_pinterest" data-id="' . $array['count'] . '" data-network="pinterest">';
+
+			$array['resource']['pinterest'] = '<div class="networkContainer">';
+			$array['resource']['pinterest'] .= '<div class="nc_tweetContainer nc_pinterest" data-id="' . $array['count'] . '" data-network="pinterest">';
 			$array['resource']['pinterest'] .= $a;
 			if ( $array['options']['totesEach'] && $array['shares']['totes'] >= $array['options']['minTotes'] && $array['shares']['pinterest'] > 0 ) :
 				$array['resource']['pinterest'] .= '<span class="iconFiller">';
@@ -139,6 +141,7 @@ function swp_pinterest_button_html( $array ) {
 				$array['resource']['pinterest'] .= '<span class="swp_count swp_hide"><span class="iconFiller"><span class="spaceManWilly"><i class="sw sw-pinterest"></i><span class="swp_share"> ' . __( 'Pin','social-warfare' ) . '</span></span></span></span>';
 			endif;
 			$array['resource']['pinterest'] .= '</a>';
+			$array['resource']['pinterest'] .= '</div>';
 			$array['resource']['pinterest'] .= '</div>';
 
 			// Store these buttons so that we don't have to generate them for each set

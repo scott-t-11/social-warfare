@@ -90,7 +90,8 @@ function swp_stumbleupon_button_html( $array ) {
 				$title = get_the_title();
 			endif;
 
-			$array['resource']['stumbleupon'] = '<div class="nc_tweetContainer swp_stumbleupon" data-id="' . $array['count'] . '" data-network="stumble_upon">';
+			$array['resource']['stumbleupon'] = '<div class="networkContainer">';
+			$array['resource']['stumbleupon'] .= '<div class="nc_tweetContainer swp_stumbleupon" data-id="' . $array['count'] . '" data-network="stumble_upon">';
 			$link = $array['url'];
 			$array['resource']['stumbleupon'] .= '<a rel="nofollow" target="_blank" href="http://www.stumbleupon.com/submit?url=' . $link . '&title=' . urlencode( $title ) . '" data-link="http://www.stumbleupon.com/submit?url=' . $link . '&title=' . urlencode( $title ) . '" class="nc_tweet">';
 			if ( $array['options']['totesEach'] && $array['shares']['totes'] >= $array['options']['minTotes'] && isset( $array['shares']['stumbleupon'] ) && $array['shares']['stumbleupon'] > 0 ) :
@@ -104,6 +105,7 @@ function swp_stumbleupon_button_html( $array ) {
 				$array['resource']['stumbleupon'] .= '<span class="swp_count swp_hide"><span class="iconFiller"><span class="spaceManWilly"><i class="sw sw-stumbleupon"></i><span class="swp_share"> ' . __( 'Stumble','social-warfare' ) . '</span></span></span></span>';
 			endif;
 			$array['resource']['stumbleupon'] .= '</a>';
+			$array['resource']['stumbleupon'] .= '</div>';
 			$array['resource']['stumbleupon'] .= '</div>';
 
 			// Store these buttons so that we don't have to generate them for each set

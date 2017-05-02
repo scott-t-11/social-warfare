@@ -81,7 +81,8 @@ function swp_googlePlus_button_html( $array ) {
 			$array['totes'] += intval( $array['shares']['googlePlus'] );
 			++$array['count'];
 
-			$array['resource']['googlePlus'] = '<div class="nc_tweetContainer googlePlus" data-id="' . $array['count'] . '" data-network="google_plus">';
+			$array['resource']['googlePlus'] = '<div class="networkContainer">';
+			$array['resource']['googlePlus'] .= '<div class="nc_tweetContainer googlePlus" data-id="' . $array['count'] . '" data-network="google_plus">';
 			$link = urlencode( urldecode( swp_process_url( $array['url'] , 'googlePlus' , $array['postID'] ) ) );
 			$array['resource']['googlePlus'] .= '<a rel="nofollow" target="_blank" href="https://plus.google.com/share?url=' . $link . '" data-link="https://plus.google.com/share?url=' . $link . '" class="nc_tweet">';
 			if ( $array['options']['totesEach'] && $array['shares']['totes'] >= $array['options']['minTotes'] && $array['shares']['googlePlus'] > 0 ) :
@@ -95,6 +96,7 @@ function swp_googlePlus_button_html( $array ) {
 				$array['resource']['googlePlus'] .= '<span class="swp_count swp_hide"><span class="iconFiller"><span class="spaceManWilly"><i class="sw sw-google-plus"></i><span class="swp_share"> ' . __( '+1','social-warfare' ) . '</span></span></span></span>';
 			endif;
 			$array['resource']['googlePlus'] .= '</a>';
+			$array['resource']['googlePlus'] .= '</div>';
 			$array['resource']['googlePlus'] .= '</div>';
 
 			// Store these buttons so that we don't have to generate them for each set
