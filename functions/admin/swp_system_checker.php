@@ -1,9 +1,12 @@
 <?php
 
+/**
+ * System checker initializes each of the system check classes, loads them, runs them, and prints them.
+ */
 class swp_system_checker
 {
     public static $custom_checks = array();
-	public static $has_error = FALSE;
+    public static $has_error = FALSE;
 
     public static function full_system_check()
     {
@@ -52,6 +55,9 @@ class swp_system_checker
     }
 }
 
+/**
+ * Parent class of each subclass
+ */
 abstract class swp_custom_check
 {
 	public $name = "";
@@ -66,6 +72,9 @@ abstract class swp_custom_check
 	abstract public function run();
 }
 
+/**
+ * Checks for PHP compatibilty
+ */
 class swp_php_check extends swp_custom_check
 {
 	public function __construct()
@@ -89,6 +98,9 @@ class swp_php_check extends swp_custom_check
 	}
 }
 
+/**
+ * Checks for CURL compatibilty
+ */
 class swp_curl_check extends swp_custom_check
 {
 	public function __construct()
@@ -112,6 +124,9 @@ class swp_curl_check extends swp_custom_check
 	}
 }
 
+/**
+ * Checks for Wordpress compatibilty
+ */
 class swp_wp_check extends swp_custom_check
 {
 	public function __construct()
